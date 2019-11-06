@@ -132,6 +132,7 @@ class DataSetCollection:
         self.sample_counter = 0
         self.interpolate_always = False
         self.interpolation_order = 3
+        self.save_as = None
 
         # deformation settings
         self.deform = [0]
@@ -283,6 +284,65 @@ class DataSetCollection:
                 return imread(file)
             else:
                 raise Exception('{} not known'.format(ending))
+
+
+    def save(self, data, filename, tporigin=None):
+        """
+        Saves image in data at location filename. Currently, data can only be saved as nifti or png images.
+
+        Parameters
+        ----------
+        data : ndarray containing the image data
+        filename : location to store the image
+        tporigin : used, if the data needs to be stored in the same orientation as the data at tporigin. Only works for nifti files
+
+        """
+        if self.save_as is not None:
+            ending = self.save_as
+        else:
+            try:
+                ending = os.path.splitext(self.maskfiles[0])[-1]
+            except Exception as e:
+                ending = os.path.splitext(self.featurefiles[0])[-1]
+        # if ending in ['.mhd']:
+        #     skio.imsave(filename + ending, data, plugin='simpleitk')
+        if ending in ['.raw']:
+            data.astype('int16').tofile(filename + ending)
+        elif ending in ['.png', '.jpeg', '.png', '.pgm', '.pnm', '.gif', '.tif', '.tiff']:
+            if np.max(data) <= 1.0 and np.min(data) >= 0:
+                np.int8(np.clip(data * 256, 0, 255))
+                imsave(filename + ending, data.squeeze())
+        else:
+            # ending in ['.nii', '.hdr', '.nii.gz', '.gz', '.dcm'] or len(data.squeeze().shape) > 2:
+            if self.correct_orientation and tporigin is not None:
+                # we corrected the orientation and we have the information to undo our wrongs, lets go:
+                aligned_data = Volume(data, np.eye(4), "RAS")  # dummy initialisation if everything else fails
+                try:
+                    tporigin_vol = ni.open_image(os.path.join(tporigin, self.maskfiles[0]), verbose=False)
+                except:
+                    try:
+                        tporigin_vol = ni.open_image(os.path.join(tporigin, self.featurefiles[0]), verbose=False)
+                    except Exception as e:
+                        logging.getLogger('data').warning('could not correct orientation for file {} from {}'
+                                                          .format(filename, tporigin))
+                        logging.getLogger('data').debug('because {}'.format(e))
+                try:
+                    aligned_vol = Volume(data, tporigin_vol.aligned_transformation, tporigin_vol.system)
+                    aligned_data = aligned_vol.copy_like(tporigin_vol)
+                except Exception as e:
+                    logging.getLogger('data').warning('could not correct orientation for file {} from {}'
+                                                      .format(filename, tporigin))
+                    logging.getLogger('data').debug('because {}'.format(e))
+
+                finally:
+                    ni.save_volume(filename + ".nii.gz", aligned_data, True)
+            else:
+                if self.correct_orientation:
+                    logging.getLogger('data').warning(
+                        'could not correct orientation for file {} since tporigin is None: {}'
+                            .format(filename, tporigin))
+                nib.save(nib.Nifti1Image(data, self.affine), filename + ".nii.gz")
+
 
     def subtract_gauss(self, data):
         """
