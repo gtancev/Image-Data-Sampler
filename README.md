@@ -16,3 +16,22 @@ Mandatory
     maskfiles: filenames of mask file(s) to be used as reference
     nclasses: number of classes of type int
     params: optional parameters for data augmentation
+    
+    
+Example
+-------
+
+    w = [80, 80, 80]
+    p = [5, 5, 5]
+    location = '/scicore/home/scicore/rumoke43/mdgru_experiments/files'
+    folder = 'train'
+    files = ['flair_pp.nii', 'mprage_pp.nii', 'pd_pp.nii', 't2_pp.nii']
+    mask = ['mask.nii']
+    nclasses = 2
+    
+    params = {}
+    params['deform','deformSigma'] = [0], [0]
+    
+    threaded_data_instance = dsc.ThreadedDataSetCollection(w, p, location, folder, files, mask, nclasses, params)
+    
+    batch, batchlabs = threaded_data_instance.random_sample()
