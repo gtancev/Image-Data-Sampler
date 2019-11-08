@@ -23,7 +23,7 @@ Mandatory Inputs
     
     
 Example
-=======
+-------
 
     w = [80, 80, 80]
     p = [5, 5, 5]
@@ -45,6 +45,7 @@ Optional Inputs
 ===============
     
 Sampling
+--------
 
     whiten: perform Gaussian-filtering of images as type bool (default: True)
     subtractGaussSigma: standard deviation for Gaussian filtering as list of len 1 or ndims (default: [5])
@@ -53,6 +54,7 @@ Sampling
     minlabel: input of type int to fix which label/class to selectively sample (default: 1)
     
 Data Augmentation
+------------------
 
     deform: deformation grid spacing in voxels as list of len 1 or ndims with types int (default: [0])
     deformSigma: given a deformation grid spacing, this determines the standard deviations for each dimension of the random     deformation vectors as list with length 1 or ndims with types float (default: [0])
