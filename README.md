@@ -8,12 +8,12 @@ Mandatory
 
 
 
-    w: subsample dimensions of type int and length ndims, e.g. [80, 80, 80]
-    p: subsample paddings of type int and length ndims, e.g. [5, 5, 5]
+    w: subsample dimensions as list of type int and length ndims, e.g. [80, 80, 80]
+    p: subsample paddings as list of type int and length ndims, e.g. [5, 5, 5]
     location: path to folders with data for training/testing of type str
-    folder: folder name of type str.
-    featurefiles: filenames of featurefiles
-    maskfiles: filenames of mask file(s) to be used as reference
+    folder: folder name of type str
+    featurefiles: filenames of featurefiles of tupe str as list
+    maskfiles: filenames of mask file(s) to be used as reference as type str as list
     nclasses: number of classes of type int
     params: optional parameters for data augmentation
     
