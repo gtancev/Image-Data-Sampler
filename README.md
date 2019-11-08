@@ -7,6 +7,7 @@ Mandatory
 ----------
 
 ::
+
     w: subsample dimensions of type int and length ndims, e.g. [80, 80, 80]
     p: subsample paddings of type int and length ndims, e.g. [5, 5, 5]
     location: path to folders with data for training, testing, etc, of type str
