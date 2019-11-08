@@ -114,7 +114,7 @@ class DataSetCollection:
         self.subtractGaussSigma = [5]
         self.nooriginal = False
         self.perform_one_hot_encoding = True
-        self.each_with_labels = 2
+        self.each_with_labels = 0
         self.minlabel = 1
         self.zero_out_label = None
         self.softlabels = False
