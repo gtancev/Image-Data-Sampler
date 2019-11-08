@@ -160,6 +160,8 @@ class DataSetCollection:
         # data_kw, kw = compile_arguments(DataSetCollection, kw, transitive=False)
         # for k, v in data_kw.items():
         #     setattr(self, k, v)
+        for k, v in kw.items():
+            setattr(self, k, v)
 
         # preload
         if not self.lazy and self.preloadall:
@@ -857,7 +859,7 @@ class ThreadedDataSetCollection(DataSetCollection):
 
                  }
 
-    def __init__(self, w, p, location, foldername, featurefiles, maskfiles, nclasses, num_threads=4, batch_size=1):
+    def __init__(self, w, p, location, foldername, featurefiles, maskfiles, nclasses, kw={}, num_threads=4, batch_size=1):
         """
         Threaded version of DataSetCollection. Basically a thin wrapper which employs num_threads threads to preload
         random samples. This will however result in possibly nonreproducible sampling patterns, as the threads run
@@ -874,7 +876,7 @@ class ThreadedDataSetCollection(DataSetCollection):
             structure. Must be provided, if tps is not.
         tps : paths of all samples to consider. must be provided if location is not set.
         """
-        super(ThreadedDataSetCollection, self).__init__(w, p, location, foldername, featurefiles, maskfiles, nclasses)
+        super(ThreadedDataSetCollection, self).__init__(w, p, location, foldername, featurefiles, maskfiles, nclasses, kw={})
         # data_kw, kw = compile_arguments(ThreadedDataSetCollection, kw, transitive=False)
         # for k, v in data_kw.items():
         #     setattr(self, k, v)
