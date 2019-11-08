@@ -3,7 +3,7 @@ A class for image (sub)sampling for CNN derivates with the option to apply sever
 
 Description
 -----------
-What the class does is basically random sampling within a image volume with provided size and padding. To this volume subsample, Gaussian-filtering can be applied and the original images together with the Gaussian-filtered versions are stacked in the channel dimension. Next, transformation are applied, if requested. The output is a volume of shape (batch_size, nx, ny, nz, n_channels). Same holds for the masks. In addition, it is possible to selectively sample, i.e. that each n-th sample includes labelled data (minlabel fixes the label of the selectively sampled class). Read more about the inputs below.  
+What the class does is basically random sampling within a image volume with provided size and padding. To this volume subsample, Gaussian-filtering can be applied and the original images together with the Gaussian-filtered versions are stacked in the channel dimension. Next, transformation are applied, if requested. The output is a tensor of shape (batch_size, nx, ny, nz, n_channels). Same holds for the masks. In addition, it is possible to selectively sample, i.e. that each n-th sample includes labelled data (by which the selectively sampled class can be determined). Read more about the inputs below.  
 
 
 Mandatory Inputs
@@ -46,4 +46,5 @@ Optional Inputs
     whiten: perform Gaussian-filtering of images as type bool (default: True)
     subtractGaussSigma: standard deviation for Gaussian filtering as list of len 1 or ndims (default: [5])
     nooriginal: use only Gaussian-filtered images as type bool (default: False)
+    
     
