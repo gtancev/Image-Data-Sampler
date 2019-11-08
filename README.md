@@ -42,9 +42,14 @@ Example
 
 Optional Inputs
 ---------------
+    
+Sampling
 
     whiten: perform Gaussian-filtering of images as type bool (default: True)
     subtractGaussSigma: standard deviation for Gaussian filtering as list of len 1 or ndims (default: [5])
     nooriginal: use only Gaussian-filtered images as type bool (default: False)
+    each_with_labels: input of type int to fix the selective sampling interval (each n-th sample)
+    minlabel: input of type int to fix which label/class to selectively sample
     
-    
+Data Augmentation
+
