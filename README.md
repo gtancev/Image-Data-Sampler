@@ -48,8 +48,17 @@ Sampling
     whiten: perform Gaussian-filtering of images as type bool (default: True)
     subtractGaussSigma: standard deviation for Gaussian filtering as list of len 1 or ndims (default: [5])
     nooriginal: use only Gaussian-filtered images as type bool (default: False)
-    each_with_labels: input of type int to fix the selective sampling interval (each n-th sample)
-    minlabel: input of type int to fix which label/class to selectively sample
+    each_with_labels: input of type int to fix the selective sampling interval, i.e. each n-th sample (default: 2)
+    minlabel: input of type int to fix which label/class to selectively sample (default: 1)
     
 Data Augmentation
 
+    deform: deformation grid spacing in voxels as list of len 1 or ndims with types int (default: [0])
+    deformSigma: given a deformation grid spacing, this determines the standard deviations for each dimension of the random     deformation vectors as list with length 1 or ndims with types float (default: [0])
+    mirror: list input of len 1 or ndims of type bool to activate random mirroring along the specified axes during training (default: [0])
+    rotation: list input of len 1 or ndims of type float as amount in radians to randomly rotate the input around a randomly drawn vector (default: [0])
+    scaling: list input of len 1 or ndims of type float as amount ot randomly scale images, per dimension, or for all dimensions, as a factor, e.g. 1.25 (default: [0])
+    shift: list input of len 1 or ndims of type int in order to sample outside of discrete coordinates, this can be set to 1 on the relevant axes (default: [0])
+    gaussiannoise: input of type bool or float to apply random multiplicative Gaussian noise on the input data with given std and mean 1 (default: False)
+    vary_mean: input of type float to vary mean of images in a random manner (default: 0)
+    vary_stddev: input of type float to vary standard deviation of images in a random manner (default: 0)
