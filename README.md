@@ -69,7 +69,7 @@ Data Augmentation
 
     deform: deformation grid spacing in voxels as list of len 1 or ndims with types int (default: [0])
     
-    deformSigma: given a deformation grid spacing, this determines the standard deviations for each dimension of the random     deformation vectors as list with length 1 or ndims with types float (default: [0])
+    deformSigma: given a deformation grid spacing, this determines the standard deviations for each dimension of the random deformation vectors as list with length 1 or ndims with types float (default: [0])
     
     mirror: list input of len 1 or ndims of type bool to activate random mirroring along the specified axes during training (default: [0])
     
