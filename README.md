@@ -62,7 +62,7 @@ Sampling
     
     nooriginal: use only Gaussian-filtered images as type bool (default: False)
     
-    each_with_labels: input of type int to fix the selective sampling interval, i.e. each n-th sample (default: 2)
+    each_with_labels: input of type int to fix the selective sampling interval, i.e. each n-th sample (default: 0, i.e. off)
     
     minlabel: input of type int to fix which label/class to selectively sample (default: 1)
     
