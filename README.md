@@ -50,6 +50,8 @@ Example
 
 Optional Inputs
 ===============
+
+Optional inputs can be provided as dict (see example above).
     
 Sampling
 --------
