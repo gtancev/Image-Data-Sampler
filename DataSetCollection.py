@@ -346,6 +346,87 @@ class DataSetCollection:
                 nib.save(nib.Nifti1Image(data, self.affine), filename + ".nii.gz")
 
 
+    def set_states(self, states):
+        """
+        Sets states of random generators according to the states in states
+
+        Parameters
+        ----------
+        states : random generator states
+
+        """
+        if states is None:
+            logging.getLogger('eval').warning(
+                'could not reproduce state, setting unreproducable random seed for all random states')
+            self.randomstate.seed(np.random.randint(0, 1000000))
+            if hasattr(self, 'random_mask_state'):
+                self.random_mask_state.seed(np.random.randint(0, 100000))
+            if hasattr(self, 'deformrandomstate'):
+                self.deformrandomstate.seed(np.random.randint(0, 100000))
+        else:
+            if hasattr(self, 'random_mask_state') and 'random_mask_state' in states:
+                self.random_mask_state.set_state(states['random_mask_state'])
+            if hasattr(self, 'deformrandomstate') and 'deformrandomstate' in states:
+                self.deformrandomstate.set_state(states['deformrandomstate'])
+            self.randomstate.set_state(states['randomstate'])
+
+
+    def get_states(self):
+        """
+        Get the states of all involved random generators
+
+        Returns
+        -------
+        states of random generators
+        """
+        states = {}
+        if hasattr(self, 'random_mask_state'):
+            states['random_mask_state'] = self.random_mask_state.get_state()
+        if hasattr(self, 'deformrandomstate'):
+            states['deformrandomstate'] = self.deformrandomstate.get_state()
+        states['randomstate'] = self.randomstate.get_state()
+        return states
+
+
+    def get_shape(self):
+        """
+        Returns the shape of the input data (with the batchsize set to None)
+
+        Returns
+        -------
+        list : shape of input data
+        """
+        if not self.channels_first:
+            return [None] + self.w + [self.numoffeatures]
+        else:
+            return [None] + [self.numoffeatures] + self.w
+
+
+    def get_target_shape(self):
+        """
+        Returns the shape of the target data
+
+        Returns
+        -------
+        list : shape of target data
+        """
+        if not self.channels_first:
+            return [None] + self.w + [self.nclasses]
+        else:
+            return [None] + [self.nclasses] + self.w
+
+
+    def get_data_dims(self):
+        """
+        Returns the shape of all available data concatenated in the batch dimension
+
+        Returns
+        -------
+        list : shape of all input data
+        """
+        return [len(self.tps)] + self.get_shape()[1:]
+
+
     def subtract_gauss(self, data):
         """
         Subtracts gaussian filtered data from itself
@@ -398,6 +479,7 @@ class DataSetCollection:
             logging.getLogger('data').warning('Could not load mask files for sample {}'.format(folder))
             masks = []
         return features, masks
+
 
     def random_sample(self, batch_size=1, dtype=None, tp=None, **kw):
         """
@@ -484,6 +566,7 @@ class DataSetCollection:
         #     labels = np.transpose(labels, order)
 
         return batch, labels
+
 
     def _one_hot_vectorize(self, indexlabels, nclasses=None, zero_out_label=None):
         '''
@@ -892,6 +975,7 @@ class ThreadedDataSetCollection(DataSetCollection):
         for t in self._preloadthreads:
             t.start()
 
+
     def random_sample(self, batch_size=1, dtype=None, tp=None, **kw):
         """
         Thin wrapper of DataSetCollection random sample, handling multiple threads to do the heavy lifting
@@ -934,6 +1018,7 @@ class ThreadedDataSetCollection(DataSetCollection):
         self._preloadthreads[self.curr_thread].start()
         self.curr_thread = (self.curr_thread + 1) % self.num_threads
         return batch, batchlabs
+
 
     def _preload_random_sample(self, batchsize, container_id):
         self._batch[container_id], self._batchlabs[container_id] = super(ThreadedDataSetCollection,
