@@ -55,7 +55,7 @@ To sample a whole volume, a separate method that generates a generator object is
     
     for batch, file, shape, w, p in batches:
         for subvol, subvol_mask, imin, imax in batch:
-            pass
+            ...
             
             
 Optional Inputs
