@@ -32,6 +32,8 @@ Mandatory Inputs
 Example
 -------
 
+To extract single subvolumes, the method random_sample is used after initiation of a data collection instance.
+
     w = [80, 80, 80]
     p = [5, 5, 5]
     location = '/scicore/home/scicore/rumoke43/mdgru_experiments/files'
@@ -47,7 +49,15 @@ Example
     
     batch, batchlabs = threaded_data_instance.random_sample()
     
+To sample a whole volume, a separate method that generates a generator object is available.
 
+    batches = threaded_data_instance.get_volume_batch_generators()
+    
+    for batch, file, shape, w, p in batches:
+        for subvol, _, imin, imax in batch:
+            pass
+            
+            
 Optional Inputs
 ===============
 
