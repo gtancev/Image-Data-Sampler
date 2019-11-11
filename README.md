@@ -54,7 +54,7 @@ To sample a whole volume, a separate method that generates a generator object is
     batches = threaded_data_instance.get_volume_batch_generators()
     
     for batch, file, shape, w, p in batches:
-        for subvol, mask, imin, imax in batch:
+        for subvol, subvol_mask, imin, imax in batch:
             pass
             
             
