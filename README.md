@@ -49,7 +49,7 @@ To extract single subvolumes, the method random_sample is used after initiation 
     
     batch, batchlabs = threaded_data_instance.random_sample()
     
-To sample a whole volume, a separate method that generates a generator object is available.
+To sample a whole volume, a separate method that generates a generator object is available. This is useful for evaluation.
 
     batches = threaded_data_instance.get_volume_batch_generators()
     
