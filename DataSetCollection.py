@@ -133,6 +133,9 @@ class DataSetCollection:
         self.interpolate_always = False
         self.interpolation_order = 3
         self.save_as = None
+        self.choose_mask_at_random = False
+        if self.choose_mask_at_random:
+            self.random_mask_state = np.random.RandomState(argget(kw, 'randommaskseed', 1337))
 
         # deformation settings
         self.deform = [0]
@@ -166,6 +169,9 @@ class DataSetCollection:
         # preload
         if not self.lazy and self.preloadall:
             self.preload_all()
+
+        # number of input channels
+        self.numoffeatures = argget(kw, 'numoffeatures', len(self._get_features_and_masks(self.tps[0])[0]))
         
 
     @staticmethod
