@@ -45,7 +45,7 @@ To extract single subvolumes, the method random_sample is used after initiation 
     nclasses = 2
     
     params = {}
-    params['deform','deformSigma'] = [0], [0]
+    params['each_with_labels'] = 2
     
     threaded_data_instance = dsc.ThreadedDataSetCollection(w, p, location, folder, files, mask, nclasses, params)
     
